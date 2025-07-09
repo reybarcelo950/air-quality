@@ -1,3 +1,6 @@
+import {INTERVALS, OPERATORS} from "../interfaces/values.types";
+import {capitalize} from "../utils";
+
 export const VALUES_KEY_LABELS: Record<string, { label: string, icon?: any }> = {
     CO: {
         label: "CO(GT)"
@@ -40,9 +43,26 @@ export const VALUES_KEY_LABELS: Record<string, { label: string, icon?: any }> = 
     }
 };
 
-export const INTERVALS = {
-    hourly: 'hourly',
-    daily: 'daily',
-    monthly: 'monthly',
-    yearly: 'yearly',
+export const INTERVAL_OPTIONS: { value: INTERVALS; label: string }[] =
+    Object.values(INTERVALS).map((interval) => ({
+        value: interval,
+        label: capitalize(interval),
+    }));
+
+export const OPERATOR_OPTIONS: { value: OPERATORS; label: string }[] =
+    Object.values(OPERATORS).map((interval) => ({
+        value: interval,
+        label: capitalize(interval),
+    }));
+
+export const PARAMETERS_OPTIONS: { value: string; label: string }[] =
+    Object.keys(VALUES_KEY_LABELS).map((key) => ({
+        value: key,
+        label: VALUES_KEY_LABELS[key].label
+    }))
+
+export const OPERATOR_OPTION_HELP: Record<OPERATORS, string> = {
+    [OPERATORS.AVG]: "Arithmetic mean of the specified numeric field across all documents",
+    [OPERATORS.MIN]: "Smallest (minimum) value of the specified field in the group of documents",
+    [OPERATORS.MAX]: "Largest (maximum) value of the specified field in the group of documents",
 }

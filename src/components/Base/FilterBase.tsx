@@ -19,17 +19,11 @@ export const MenuStl = styled(Menu)(() => ({
   '.MuiList-root': {
     minWidth: '150px',
   },
-  '.MuiCheckbox-root': {
-    padding: '0 9px 0 0',
-  },
-  '.MuiRadio-root': {
-    padding: '0 9px 0 0',
-  },
 }));
 
 export const ButtonInput = styled(Button)(({ theme }) => ({
   color: theme.palette.text.primary,
-  paddingRight: '8px',
+  padding: '2px 8px',
   border: '1px solid ' + (theme.palette.mode === 'light' ? theme.palette.grey[400] : theme.palette.grey[600]),
 }));
 
@@ -77,9 +71,6 @@ const FilterBase = forwardRef(({ id, title, children, menuProps, onClose, onOpen
       </ButtonInput>
       <MenuStl
         id={controls}
-        MenuListProps={{
-          'aria-labelledby': menuID,
-        }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}

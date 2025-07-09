@@ -1,28 +1,19 @@
-import {Box, Stack, styled} from '@mui/material';
-import {DateRangePicker} from 'react-date-range';
+import {Box, debounce, styled} from '@mui/material';
+import {DateRangePicker, RangeKeyDict} from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import {useDateRangeFilter} from "../../hooks/useRangeFilter";
-import {IDateRangeOption, OptionTypes} from "../../interfaces/date.types";
 import enLocale from 'date-fns/locale/en-US';
+import {useCallback, useMemo, useState} from "react";
 
-export type DateFilterProps = {
-    value?: string;
-    options?: Array<IDateRangeOption | string>;
-    excludeOptions?: OptionTypes[];
-    onChange: (selected: string) => void;
-    enableCustom?: boolean;
-    onRangeOptionSelect?: () => void;
+export type IDateSelection = {
+    from?: Date;
+    to?: Date;
 };
 
-const defaultValue: string = '';
-
-export const CustomMenuItem = styled(Stack)(({theme}) => ({
-    padding: 0,
-    [theme.breakpoints.up('md')]: {
-        padding: '0px 16px',
-    },
-}));
+export type DateFilterProps = {
+    value?: any;
+    onChange: (selected: IDateSelection) => void;
+};
 
 const SDateRangePicker = styled<any>(DateRangePicker)(({theme}) => ({
     '.rdrDefinedRangesWrapper, .rdrMonthName': {
@@ -41,17 +32,17 @@ const SDateRangePicker = styled<any>(DateRangePicker)(({theme}) => ({
     },
 }));
 
-const DateFilterSelector = ({
-                                onChange,
-                                value = defaultValue
-                            }: DateFilterProps) => {
-    const {
-        rangeValue,
-        handleChange,
-        handleCustomRangeChange,
-        startDate,
-        endDate,
-    } = useDateRangeFilter(value, onChange);
+const DateFilterSelector = ({onChange, value}: DateFilterProps) => {
+    const [rangeValue, setRange] = useState<IDateSelection>(value as IDateSelection);
+    const update = useMemo(() => {
+        return debounce(onChange, 400);
+    }, [onChange]);
+
+    const handleCustomRangeChange = useCallback(({selection}: RangeKeyDict) => {
+            setRange({from: selection.startDate, to: selection.endDate});
+            update({from: selection.startDate, to: selection.endDate});
+        }, [update],
+    );
 
     return (
         <Box px={0} py={0}>
@@ -65,8 +56,8 @@ const DateFilterSelector = ({
                 months={1}
                 ranges={[
                     {
-                        startDate,
-                        endDate,
+                        startDate: rangeValue?.from,
+                        endDate: rangeValue?.to,
                         key: 'selection',
                     },
                 ]}
