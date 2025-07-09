@@ -1,15 +1,15 @@
 import {useQuery} from "@tanstack/react-query";
+import AirQualityApiService from "../services/AirQualityApiService";
 
-const useGetSummaryMetrics = (
-    {filters, operator = 'avg'}:
-    { filters: any, operator: 'avg' | 'min' | 'max' }
-) => {
+const useGetSummaryMetrics = (filters?: any, operator = 'avg') => {
     return useQuery({
         queryKey: ['SUMMARY_METRICS', filters, operator],
         // @ts-ignore
-        queryFn: () => AddressService.getCuPoi(lng, lat),
-        // @ts-ignore
-        enabled: !!(lng && lat && countryCode === 'CU' && updateMarker),
+        queryFn: () => AirQualityApiService.getSummaryMetrics({
+            ...filters,
+            operator
+        }),
+        enabled: !!operator,
     });
 };
 

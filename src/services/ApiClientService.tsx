@@ -28,7 +28,7 @@ class ApiClientService {
     private readonly API_URL: string;
 
     constructor() {
-        const API_URL = BASE_URL || 'http://localhost:8080';
+        const API_URL = BASE_URL || 'http://localhost:3000';
         this.service = axios.create({
             baseURL: API_URL,
         });
@@ -55,8 +55,7 @@ class ApiClientService {
 
     onRequestSuccess = (config: any) => {
         config.headers = {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
+            accept: 'application/json, text/plain, */*',
             ...config.headers,
         };
         config.timeout = config.timeout || TIMEOUT;

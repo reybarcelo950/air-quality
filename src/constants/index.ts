@@ -39,3 +39,10 @@ export const VALUES_KEY_LABELS: Record<string, { label: string, icon?: any }> = 
         label: "AH"
     }
 };
+
+export const INTERVALS = {
+    hourly: 'hourly',
+    daily: 'daily',
+    monthly: 'monthly',
+    yearly: 'yearly',
+}
