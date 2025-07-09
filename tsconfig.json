@@ -13,6 +13,9 @@
     "esModuleInterop": true,
     "declaration": true,
     "declarationDir": "types",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": [
+      "vite/client"
+    ]
   }
 }
