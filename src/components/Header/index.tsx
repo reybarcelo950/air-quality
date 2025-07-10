@@ -1,8 +1,9 @@
 import React, {memo} from 'react';
 import {Typography,} from "@mui/material"
-import DateFilter from '../DateFilter/DateFilter';
-import AreaContainer from "../AreaContainer/AreaContainer";
+import {DateFilter} from '../DateFilter';
+import AreaContainer from "../AreaContainer";
 import {useFilter} from '../../providers/FilterProvider';
+import DateValue from "../DateValue";
 
 const Header = () => {
     const {from, to, setDateRange} = useFilter()
@@ -11,15 +12,15 @@ const Header = () => {
         <AreaContainer>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                    <Typography variant="h4" component="h1" className="font-bold text-gray-900">
-                        Dashboard Analytics
+                    <Typography variant="h4" component="h1" className="font-bold text-2xl">
+                        Air Quality Analytics
                     </Typography>
                     <Typography className="mt-1 italic text-gray-600 !text-[14px]">
-                        lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Environmental monitoring dashboard
                     </Typography>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex md:flex-col flex-row gap-1 items-center md:items-end justify-end">
                     <DateFilter
                         id={'Date'}
                         title={'Date range'}
@@ -28,6 +29,11 @@ const Header = () => {
                             setDateRange?.(v.from as Date, v.to as Date);
                         }}
                     />
+                    <div className="flex items-center gap-x-2 text-gray-600 !text-[14px]">
+                        <DateValue value={from} format="PPP" className="text-gray-600 !text-[14px]"/>
+                        <span className="text-gray-600">-</span>
+                        <DateValue value={to} format="PPP" className="!text-[14px]"/>
+                    </div>
                 </div>
             </div>
         </AreaContainer>

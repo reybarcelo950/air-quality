@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {Grid, Typography} from "@mui/material"
-import AreaContainer from '../AreaContainer/AreaContainer';
+import AreaContainer from '../AreaContainer';
 import {OPERATOR_OPTION_HELP, OPERATOR_OPTIONS, VALUES_KEY_LABELS} from "../../constants";
 import useGetSummaryMetrics from "../../hooks/useGetSummaryMetrics";
 import {cx} from "../../utils";

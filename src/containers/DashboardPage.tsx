@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import MetricsGrid from "../components/MetricsGrid";
 import LineChartSection from "../components/LineChartSection";
 import {FilterProvider} from "../providers/FilterProvider";
+import DataListSection from '../components/DataListSection';
 
 const DashboardPage = () => {
     return (
@@ -12,6 +13,7 @@ const DashboardPage = () => {
                 <Header/>
                 <MetricsGrid/>
                 <LineChartSection/>
+                <DataListSection/>
             </Container>
         </FilterProvider>
     );

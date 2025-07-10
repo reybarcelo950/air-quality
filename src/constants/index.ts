@@ -1,5 +1,6 @@
 import {INTERVALS, OPERATORS} from "../interfaces/values.types";
 import {capitalize} from "../utils";
+import {ColumnTable} from "../components/DataTable";
 
 export const VALUES_KEY_LABELS: Record<string, { label: string, icon?: any }> = {
     CO: {
@@ -66,3 +67,12 @@ export const OPERATOR_OPTION_HELP: Record<OPERATORS, string> = {
     [OPERATORS.MIN]: "Smallest (minimum) value of the specified field in the group of documents",
     [OPERATORS.MAX]: "Largest (maximum) value of the specified field in the group of documents",
 }
+
+export const TABLE_COLUMNS: ColumnTable[] =
+    Object.keys(VALUES_KEY_LABELS).map((key) => ({
+        field: key,
+        align: "center",
+        headerName: VALUES_KEY_LABELS[key].label
+    }))
+
+export const TABLE_ROWS_PER_PAGE = 10;

@@ -1,6 +1,6 @@
 import React, {memo, useMemo} from 'react';
 import {Typography} from "@mui/material"
-import AreaContainer from '../AreaContainer/AreaContainer';
+import AreaContainer from '../AreaContainer';
 import useTimeLineMetrics from "../../hooks/useTimeLineMetrics";
 import {INTERVAL_OPTIONS, PARAMETERS_OPTIONS} from "../../constants";
 import ApexCharts from 'react-apexcharts';
@@ -62,7 +62,7 @@ const graphConfig: ApexOptions = {
 
 const LineChartSection = () => {
     const {filters, parameter, interval, setParameter, setInterval} = useFilter()
-    const {data, isLoading} = useTimeLineMetrics(filters, interval, parameter)
+    const {data} = useTimeLineMetrics(filters, interval, parameter)
 
     const series = useMemo(() => [
         {
