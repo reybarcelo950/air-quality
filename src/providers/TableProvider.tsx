@@ -1,28 +1,36 @@
-import {createContext, memo, useContext, useMemo, useState} from 'react';
+import {createContext, Dispatch, memo, SetStateAction, useContext, useMemo, useState} from 'react';
 import {ColumnTable} from "../components/DataTable";
 
 type FilterContextType = {
+    isVisible: Record<string, boolean>
     columns: ColumnTable[]
-    visibleColumns: ColumnTable[]
+    visibleColumns: ColumnTable[],
+    setIsVisible: Dispatch<SetStateAction<Record<string, boolean>>>;
 };
 
 const TableContext = createContext<Partial<FilterContextType>>({});
 
 const TableProvider = ({children, columns}: { children: any, columns: ColumnTable[] }) => {
-    const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
+    const [isVisible, setIsVisible] = useState<Record<string, boolean>>({
+        T: false,
+        RH: false,
+        AH: false,
+    });
 
     const visibleColumns = useMemo(
         () =>
             columns.filter((column: ColumnTable) => {
                 return isVisible[column.field] ?? true;
             }),
-        [columns],
+        [columns, isVisible],
     );
 
     return (
         <TableContext.Provider value={{
             columns,
-            visibleColumns
+            visibleColumns,
+            isVisible,
+            setIsVisible
         }}>
             {children}
         </TableContext.Provider>

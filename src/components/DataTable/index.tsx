@@ -1,4 +1,4 @@
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode, useMemo, useState} from 'react';
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from '@mui/material';
 import LoadingRows from './LoadingRows';
 import {TABLE_ROWS_PER_PAGE} from "../../constants";
@@ -46,7 +46,7 @@ const InsideTable = ({children, dense, columns, emptyRows}: {
 }
 
 const DataTable = ({data = [], isLoading, dense}: DataTableProps) => {
-    const {visibleColumns: columns} = useTable()
+    const {visibleColumns: columns, isVisible} = useTable()
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(TABLE_ROWS_PER_PAGE);
 
@@ -64,7 +64,13 @@ const DataTable = ({data = [], isLoading, dense}: DataTableProps) => {
         setPage(0);
     };
 
-    const emptyRows = page > 0 ? Math.max(0, data.length - rowsPerPage) : 0;
+    const rows = useMemo(() => {
+        return rowsPerPage > 0
+            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : data
+    }, [data, page, rowsPerPage]);
+
+    const emptyRows = page > 0 ? Math.max(0, rows.length - rowsPerPage) : 0;
 
     if (!isLoading && !data?.length) {
         return (
@@ -84,22 +90,18 @@ const DataTable = ({data = [], isLoading, dense}: DataTableProps) => {
                 {isLoading && (
                     <LoadingRows headCellsSize={columns?.length}/>
                 )}
-                {!isLoading &&
-                    (rowsPerPage > 0
-                            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            : data
-                    ).map((row, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                        >
-                            {columns?.map(({headerName, field, render, ...rest}) => {
-                                return (<TableCell component="th" scope="row" {...rest}>
-                                    {render ? render(row, field) : row?.[field]}
-                                </TableCell>)
-                            })}
-                        </TableRow>
-                    ))}
+                {!isLoading && rows?.map((row, index) => (
+                    <TableRow
+                        key={index}
+                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                    >
+                        {columns?.map(({headerName, field, render, ...rest}) => {
+                            return (<TableCell component="th" scope="row" {...rest}>
+                                {render ? render(row, field) : row?.[field]}
+                            </TableCell>)
+                        })}
+                    </TableRow>
+                ))}
             </InsideTable>
             <TablePagination
                 rowsPerPageOptions={[10, 25, 50, {label: 'All', value: -1}]}

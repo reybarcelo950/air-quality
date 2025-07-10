@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {FilterBase} from '../Base';
 import DateFilterSelector, {IDateSelection} from "./DateFilterSelector";
 import {BaseFilterProps} from "../Base/FilterBase";
@@ -9,10 +9,9 @@ export type DateFilterProps = BaseFilterProps & {
 };
 
 const DateFilter = ({id, title, onChange, value, ...rest}: DateFilterProps) => {
-    const menuPopupRef = useRef<any>(null);
 
     return (
-        <FilterBase title={title} id={id} ref={menuPopupRef}>
+        <FilterBase title={title} id={id}>
             <DateFilterSelector
                 {...rest}
                 value={value}
