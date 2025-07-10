@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "install:all": "npm install",
-    "start": "npm run start:backend & npm run start:ui",
+    "start": "npm-run-all --parallel start:backend start:ui",
     "start:backend": "npm --workspace=backend run start",
     "start:ui": "npm --workspace=ui run start",
     "build": "npm run build:backend && npm run build:ui",

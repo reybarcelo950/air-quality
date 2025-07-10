@@ -8,10 +8,6 @@ import { AirQualityModule } from './air-quality/air-quality.module';
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(
       process.env.MONGO_URI || 'mongodb://localhost:27017/airquality',
-      {
-        onConnectionCreate: () =>
-          console.log(`connected to ${process.env.MONGO_URI}`),
-      },
     ),
     AirQualityModule,
   ],
